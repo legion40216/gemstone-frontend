@@ -39,6 +39,7 @@ export default async function Page({ params, searchParams }) {
             colors={colors} 
             maxPrice={maxPrice}  
           />
+          {/* Render Desktop Filters without setOpen */}
           <div className="hidden lg:block">
             {/* Render Desktop Filters without setOpen */}
             <Filter
@@ -57,6 +58,7 @@ export default async function Page({ params, searchParams }) {
               maxPrice={maxPrice}
             />
           </div>
+          
           <div className="col-span-4">
             <ProductList initialData={products} />
           </div>

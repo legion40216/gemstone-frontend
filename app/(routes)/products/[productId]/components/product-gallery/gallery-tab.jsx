@@ -12,12 +12,13 @@ export default function GalleryTab({
       }`}
       onClick={() => setMainImage(image)}
     >
-      <div className="relative aspect-square overflow-hidden w-16 h-16 ">
+      <div className="relative overflow-hidden w-16 h-16 ">
       <Image
           src={image.url}
           alt={image.alt || "Product thumbnail"}
           fill
           priority
+          className='object-contain'
         />
       </div>
     </div>

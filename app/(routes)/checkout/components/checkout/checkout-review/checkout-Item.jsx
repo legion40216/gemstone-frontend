@@ -66,15 +66,27 @@ export default function CheckoutItem({ item }) {
         </div>
         <div className="flex items-center justify-between text-sm mt-4">
           <div className="flex items-center space-x-2">
-            <Button size="icon" variant="outline" onClick={() => handleCountChange(count - 1)}>
+            <Button 
+            size="icon" 
+            variant="outline" 
+            onClick={() => handleCountChange(count - 1)}
+            >
               <Minus className="h-4 w-4" />
             </Button>
             <span>{item.count}</span>
-            <Button size="icon" variant="outline" onClick={() => handleCountChange(count + 1)}>
+            <Button 
+            size="icon" 
+            variant="outline" 
+            onClick={() => handleCountChange(count + 1)}
+            >
               <Plus className="h-4 w-4" />
             </Button>
           </div>
-          <Button variant="ghost" onClick={handleRemove} className="text-red-600">
+          <Button 
+          variant="ghost" 
+          onClick={handleRemove} 
+          className="text-red-600"
+          >
             <Trash2 className="h-4 w-4 mr-2" />
             Remove
           </Button>

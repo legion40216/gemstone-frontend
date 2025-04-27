@@ -1,65 +1,89 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { Heart, ShoppingCart, Plus, Minus } from 'lucide-react';
+import { 
+  Heart, 
+  ShoppingCart, 
+  Plus, 
+  Minus,
+  X 
+} from 'lucide-react';
 import useCart from '@/hooks/useCartStore';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 
 export default function ProductActions({ data }) {
-  const { items, addItem, getItemCount, updateItemCount } = useCart();
-  const [count, setCount] = useState(1);
-  const [availableQuantity, setAvailableQuantity] = useState(0);
-  const [itemCount, setItemCount] = useState(0);
+  const { 
+    items, 
+    addItem, 
+    getItemCount, 
+    updateItemCount, 
+    removeItem 
+  } = useCart();
 
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
+  const [remainingStock, setRemainingStock] = useState(0);
+  const [cartQuantity, setCartQuantity] = useState(0);
+
+  // useEffect to synchronize remainingStock state with the cart and product data
   useEffect(() => {
-    const currentItemCount = getItemCount(data.id);
-    setItemCount(currentItemCount);
-    setAvailableQuantity(data.quantity - currentItemCount);
-    setCount(currentItemCount > 0 ? currentItemCount : 1);
+    // Get the current count of this product in the cart
+    const currentCartQuantity = getItemCount(data.id);
+
+    // Update the state with the current item count
+    setCartQuantity(currentCartQuantity);
+
+    // Calculate and update the available stock
+    setRemainingStock(data.quantity - currentCartQuantity);
+
+    // Set the initial count to the current item count if it exists, otherwise default to 1
+    setSelectedQuantity(currentCartQuantity > 0 ? currentCartQuantity : 1);
   }, [data, items, getItemCount]);
 
-  const handleAddToCart = () => {
-    if (itemCount > 0) {
-      toast.info('Item is already in cart.');
-    } else if (availableQuantity !== 0) {
-      addItem(data, count);
+  // Handler for adding or removing the product from the cart
+  const handleCartAction = () => {
+    if (cartQuantity > 0) {
+      removeItem(data.id);
+      toast.info('Item removed from cart.');
+    } else if (remainingStock !== 0) {
+      addItem(data, selectedQuantity);
     } else {
       toast.error(`Only ${data.quantity} items available.`);
     }
   };
 
-  const handleCountChange = (newCount) => {
-    if (newCount > data.quantity) {
+  // Handler for changing the quantity of the product
+  const handleQuantityChange = (newQuantity) => {
+    if (newQuantity > data.quantity) {
       toast.error(`Only ${data.quantity} items available.`);
       return;
     }
-    if (newCount < 1) {
+    if (newQuantity < 1) {
       toast.error("Quantity cannot be less than 1.");
       return;
     }
-    setCount(newCount);
-    updateItemCount(data.id, newCount);
+    setSelectedQuantity(newQuantity);
+    updateItemCount(data.id, newQuantity);
   };
 
   return (
     <div className="space-y-6">
-      {/* Quantity Selection and Add to Cart */}
+      {/* Quantity Selection */}
       <div className="flex items-center gap-3 justify-between">
         <div className="flex items-center border rounded-md">
           <Button 
           variant="ghost" 
           size="sm" 
-          onClick={() => handleCountChange(count - 1)}
+          onClick={() => handleQuantityChange(selectedQuantity - 1)}
           >
             <Minus className="w-4 h-4" />
           </Button>
 
-          <span className="px-3">{count}</span>
+          <span className="px-3">{selectedQuantity}</span>
 
           <Button 
           variant="ghost" 
           size="sm"  
-          onClick={() => handleCountChange(count + 1)}
+          onClick={() => handleQuantityChange(selectedQuantity + 1)}
           >
             <Plus className="w-4 h-4" />
           </Button>
@@ -77,20 +101,35 @@ export default function ProductActions({ data }) {
       <div className="flex">
         <Button
           className="flex-1 py-3 px-4 rounded-full flex items-center justify-center"
-          onClick={handleAddToCart}
-          disabled={availableQuantity === 0}
+          onClick={handleCartAction}
+          disabled={remainingStock === 0}
+          variant={cartQuantity > 0  ? "destructive" : "default"}
         >
-          <ShoppingCart className="w-5 h-5 mr-2" />
-          Add to Cart
+          {
+            cartQuantity > 0 
+            ? ( 
+              <>
+              <X className="w-5 h-5 mr-2" />
+              Remove from cart
+              </>
+             ) 
+            :
+            (
+              <>
+              <ShoppingCart className="w-5 h-5 mr-2" />
+              Add to Cart
+              </>
+            ) 
+          }
         </Button>
       </div>
       
       {/* Stock Status */}
       <div>
-        {availableQuantity === 0 ? (
+        {remainingStock === 0 ? (
           <p className="text-red-500">This product is out of stock.</p>
         ) : (
-          <p className="text-gray-500">{availableQuantity} items available</p>
+          <p className="text-gray-500">{remainingStock} items available</p>
         )}
       </div>
     </div>

@@ -32,7 +32,9 @@ export default async function Page({ params }) {
   if (!product) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <p className="text-xl font-semibold">Product not found.</p>
+        <p className="text-xl font-semibold">
+          Product not found.
+        </p>
       </div>
     );
   }
@@ -47,12 +49,8 @@ export default async function Page({ params }) {
     <div className="space-y-6">
       {/* Product Gallery and Details */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-        <div>
           <ProductGallery images={product.images} />
-        </div>
-        <div className="space-y-8">
           <ProductDetails data={product} />
-        </div>
       </div>
 
       {/* Data Sheet Accordion */}

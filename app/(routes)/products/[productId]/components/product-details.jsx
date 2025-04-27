@@ -51,7 +51,9 @@ export default function ProductDetails({ data }) {
         </p>
       </div>
       
-      <ProductActions data={data}/>
+      <ProductActions 
+      data={data}
+      />
     </div>
   );
 }

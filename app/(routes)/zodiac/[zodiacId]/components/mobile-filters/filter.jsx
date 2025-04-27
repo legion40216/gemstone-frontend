@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 const Filter = ({ data, name, valueKey, maxPrice }) => {
   const searchParams = useSearchParams();
   const selectedValue = searchParams.get(valueKey);
-  const [priceRange, setPriceRange] = React.useState([0, maxPrice]);
+  const [priceRange, setPriceRange] = useState([0, maxPrice]);
 
   // Handle filter changes
   const onFilterChange = (newValue) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,9 +6,22 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { CheckCircle, Package, Truck, Home, CreditCard } from 'lucide-react';
 
-const OrderConfirmationStep = ({ orderData }) => {
+export default function CheckoutConfirmation ({ confirmedOrderData }) {
   const router = useRouter();
+  const { 
+    customerName,
+    email,
+    phone,
+    address,
+    city,
+    country,
+    postalCode,
+    items, 
+    totalPrice, 
+    paymentMethod 
+  } = confirmedOrderData;
 
+  // Confetti
   useEffect(() => {
     const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
   
@@ -19,17 +32,20 @@ const OrderConfirmationStep = ({ orderData }) => {
     });
   }, []);
 
-  const { customerInfo, items, totalPrice, paymentMethod } = orderData;
-
   return (
     <div className="container mx-auto px-4 py-8 max-w-3xl">
       <Card className="mb-8 bg-green-50 border-green-200">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-2xl font-bold text-green-700">Order Confirmed!</CardTitle>
+        <CardHeader className="flex flex-row items-center justify-between 
+        space-y-0 pb-2">
+          <CardTitle className="text-2xl font-bold text-green-700">
+            Order Confirmed!
+          </CardTitle>
           <CheckCircle className="h-8 w-8 text-green-500" />
         </CardHeader>
         <CardContent>
-          <p className="text-green-700">Thank you for your purchase. Your order has been successfully placed.</p>
+          <p className="text-green-700">
+          Thank you for your purchase. Your order has been successfully placed.
+          </p>
         </CardContent>
       </Card>
 
@@ -55,7 +71,10 @@ const OrderConfirmationStep = ({ orderData }) => {
         </CardHeader>
         <CardContent>
           {items.map((item, index) => (
-            <div key={index} className="flex justify-between items-center mb-2">
+            <div 
+            key={index} 
+            className="flex justify-between items-center mb-2"
+            >
               <span>{item.name} x {item.count}</span>
               <span>${(item.price * item.count).toFixed(2)}</span>
             </div>
@@ -76,10 +95,10 @@ const OrderConfirmationStep = ({ orderData }) => {
           <div className="flex items-start mb-2">
             <Home className="mr-2 h-5 w-5" />
             <div>
-              <p>{customerInfo.name}</p>
-              <p>{customerInfo.address}</p>
-              <p>{customerInfo.city}, {customerInfo.postalCode}</p>
-              <p>{customerInfo.country}</p>
+              <p>{customerName}</p>
+              <p>{address}</p>
+              <p>{city}, {postalCode}</p>
+              <p>{country}</p>
             </div>
           </div>
         </CardContent>
@@ -109,6 +128,4 @@ const OrderConfirmationStep = ({ orderData }) => {
       </div>
     </div>
   );
-};
-
-export default OrderConfirmationStep;
+}

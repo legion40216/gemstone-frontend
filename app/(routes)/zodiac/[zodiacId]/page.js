@@ -2,10 +2,10 @@ import React from 'react'
 
 import getColors from '@/app/actions/get-colors'
 import getSizes from '@/app/actions/get-sizes'
+import getProducts from '@/app/actions/get-products'
 
 import Filter from './components/mobile-filters/filter'
 import MobileFilters from './components/mobile-filters'
-import getProducts from '@/app/actions/get-products'
 import ProductList from './components/product-list'
 
 export default async function Page({ params, searchParams }) {

@@ -41,6 +41,7 @@ export default function CartItem({ item, setOpen }) {
                     className="object-cover w-full h-full"
                 />
             </div>
+            
             <div className="ml-4 flex flex-1 flex-col">
                 <div className="flex justify-between text-base font-medium text-gray-900">
                     <Link 
@@ -73,6 +74,7 @@ export default function CartItem({ item, setOpen }) {
                     </Button>
                 </div>
             </div>
+
             <Button 
                 variant="ghost" 
                 onClick={handleRemove} 

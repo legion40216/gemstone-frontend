@@ -27,7 +27,7 @@ export default function Cart() {
   }, [getTotalCount, items])
 
   const handleCheckout = () => {
-    router.push('/cart')
+    router.push('/checkout')
     setOpen(false)
   }
 

@@ -1,15 +1,20 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 
-const Filter = ({ data, name, valueKey, maxPrice }) => {
-  const searchParams = useSearchParams();
+const Filter = ({ 
+  data, 
+  name, 
+  valueKey, 
+  maxPrice 
+}) => {
+  const searchParams  = useSearchParams();
   const selectedValue = searchParams.get(valueKey);
-  const [priceRange, setPriceRange] = React.useState([0, maxPrice]);
+  const [priceRange, setPriceRange] = useState([0, maxPrice]);
 
   // Handle filter changes
   const onFilterChange = (newValue) => {
@@ -22,9 +27,6 @@ const Filter = ({ data, name, valueKey, maxPrice }) => {
     }
 
     window.history.pushState(null, "", `?${params.toString()}`);
-    
-    // Update the selected value state (if needed)
-    // This may not be necessary since selectedValue comes from URL
   };
 
   // Handle price range slider changes
