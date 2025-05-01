@@ -9,6 +9,7 @@ import NavActions from "./navbar/nav-actions";
 export default async function Navbar() {
   const categories = await getCategories()
   const zodiacs    = await getZodiacs()
+  console.log(categories)
   
   return (
     <nav className="container flex justify-between items-center">
